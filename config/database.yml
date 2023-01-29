@@ -10,12 +10,12 @@
 #   https://dev.mysql.com/doc/refman/5.7/en/password-hashing.html
 #
 default: &default
-  adapter: mysql2
-  encoding: utf8mb4
-  pool: 5
+  adapter: postgresql
+  encoding: unicode
+  root: "localhost"
   username: <%= ENV.fetch("database_username") %>
   password: <%= ENV.fetch("database_password") %>
-  socket: /var/run/mysqld/mysqld.sock
+  pool: 5
 
 development:
   <<: *default
