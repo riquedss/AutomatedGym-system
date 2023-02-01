@@ -51,6 +51,3 @@ test:
 production:
   <<: *default
   url: <%= ENV["DATABASE_URL"] %>
-  database: automatedGym_production
-  username: automatedGym
-  password: <%= ENV["AUTOMATEDGYM_DATABASE_PASSWORD"] %>
