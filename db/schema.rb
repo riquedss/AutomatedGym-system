@@ -10,9 +10,35 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_28_044134) do
+ActiveRecord::Schema[7.0].define(version: 2023_02_03_050053) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "exercise_gym_sheets", force: :cascade do |t|
+    t.integer "sets"
+    t.integer "repetition"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "exercise_id", null: false
+    t.bigint "gym_sheet_id", null: false
+    t.index ["exercise_id"], name: "index_exercise_gym_sheets_on_exercise_id"
+    t.index ["gym_sheet_id"], name: "index_exercise_gym_sheets_on_gym_sheet_id"
+  end
+
+  create_table "exercises", force: :cascade do |t|
+    t.string "name", null: false
+    t.integer "muscle_group", null: false
+    t.integer "kind", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "gym_sheets", force: :cascade do |t|
+    t.string "description"
+    t.string "objective"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "provider", default: "email", null: false
@@ -48,4 +74,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_28_044134) do
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
+  add_foreign_key "exercise_gym_sheets", "exercises"
+  add_foreign_key "exercise_gym_sheets", "gym_sheets"
 end
