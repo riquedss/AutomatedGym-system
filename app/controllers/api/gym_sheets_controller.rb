@@ -2,7 +2,8 @@
 
 module Api
   class GymSheetsController < ApplicationController
-    before_action :set_gym_sheet, only: %i[show update destroy]
+    before_action :set_gym_sheet, only: %i[show update destroy create_exercise]
+    before_action :set_exercise, only: %i[create_exercise]
 
     def index
       @gym_sheets = GymSheet.all
@@ -14,7 +15,16 @@ module Api
       render(json: @gym_sheet)
     end
 
-    def add_exercise
+    def create_exercise
+      @exercise_gym_sheet = ExerciseGymSheet.new(exercise_gym_sheet_params)
+      @exercise_gym_sheet.gym_sheet = @gym_sheet
+      @exercise_gym_sheet.exercise = @exercise
+
+      if @exercise_gym_sheet.save
+        render(json: @exercise_gym_sheet, status: :created)
+      else
+        render(json: @exercise_gym_sheet, status: :unprocessable_entity)
+      end
     end
 
     def create
@@ -45,8 +55,16 @@ module Api
       @gym_sheet = GymSheet.find(params[:id])
     end
 
+    def set_exercise
+      @exercise = Exercise.find(params[:exercise_id])
+    end
+
     def gym_sheet_params
       params.require(:gym_sheet).permit(:description, :objective)
+    end
+
+    def exercise_gym_sheet_params
+      params.require(:exercise_gym_sheet).permit(:sets, :repetition)
     end
   end
 end
