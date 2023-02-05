@@ -10,8 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_02_03_050053) do
+ActiveRecord::Schema[7.0].define(version: 2023_02_05_020416) do
   # These are extensions that must be enabled in order to support this database
+  enable_extension "pgcrypto"
   enable_extension "plpgsql"
 
   create_table "exercise_gym_sheets", force: :cascade do |t|
@@ -40,7 +41,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_03_050053) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "users", force: :cascade do |t|
+  create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "provider", default: "email", null: false
     t.string "uid", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -62,7 +63,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_03_050053) do
     t.integer "gender"
     t.integer "age"
     t.integer "height"
-    t.integer "role"
+    t.integer "role", default: 0
     t.integer "objective"
     t.string "email", default: "", null: false
     t.json "tokens"
