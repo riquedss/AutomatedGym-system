@@ -2,8 +2,10 @@
 
 module Api
   class GymSheetsController < ApplicationController
+    before_action :authenticate_api_user!
     before_action :set_gym_sheet, only: %i[show update destroy create_exercise]
     before_action :set_exercise, only: %i[create_exercise]
+    before_action :set_user, only: %i[create]
 
     def index
       @gym_sheets = GymSheet.all
@@ -29,6 +31,7 @@ module Api
 
     def create
       @gym_sheet = GymSheet.new(gym_sheet_params)
+      @gym_sheet.user = @user || current_api_user
 
       if @gym_sheet.save
         render(json: @gym_sheet, status: :created)
@@ -57,6 +60,10 @@ module Api
 
     def set_exercise
       @exercise = Exercise.find(params[:exercise_id])
+    end
+
+    def set_user
+      @user = User.find_by(id: request.query_parameters[:user_id])
     end
 
     def gym_sheet_params
