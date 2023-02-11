@@ -10,7 +10,10 @@ class ApplicationController < ActionController::API
   protected
 
   def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:account_update, keys: %i[name])
+    parameters = %i[name last_name email gender date_of_birth height weight objective]
+    parameters += %i[role] if action_name == 'update'
+    devise_parameter_sanitizer.permit(:sign_up, keys: parameters)
+    devise_parameter_sanitizer.permit(:account_update, keys: parameters)
   end
 
   def show_not_found_errors(exception)

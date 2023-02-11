@@ -6,7 +6,7 @@ Rails.application.routes.draw do
     resources :exercise_gym_sheets
     resources :exercises
     resources :gym_sheets
-    resources :users, only: %i[index show destroy]
+    resources :users, only: %i[index create show destroy]
 
     post '/gym_sheets/:id/exercise/:exercise_id', to: 'gym_sheets#create_exercise'
   end
