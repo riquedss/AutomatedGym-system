@@ -17,10 +17,10 @@ class User < ApplicationRecord
   enum gender: { F: 0, M: 1 }
 
   REGEX_EMAIL =  /\A[^@\s]+@([^@.\s]+\.)+[^@.\s]+\z/
-  validates :name, :last_name, :email, :password, :password_confirmation, presence: true
+  validates :name, :last_name, presence: true
   validates :email, format: { with: REGEX_EMAIL, message: 'E-mail invalid'  },
                     uniqueness: { case_sensitive: false }
-  validates :gender, inclusion: { in: genders.keys, message: 'invalid' }
+  validates :gender, inclusion: { in: genders.keys, message: 'invalid' }, allow_blank: true
   validates :role, inclusion: { in: roles.keys, message: 'invalid' }
 
   def role=(value)
