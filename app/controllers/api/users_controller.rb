@@ -19,7 +19,7 @@ module Api
       if @user.save
         render(json: @user)
       else
-        render(json: @user, status: :unprocessable_entity)
+        render(json: @user.errors, status: :unprocessable_entity)
       end
     end
 

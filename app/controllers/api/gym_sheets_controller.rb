@@ -25,7 +25,7 @@ module Api
       if @exercise_gym_sheet.save
         render(json: @exercise_gym_sheet, status: :created)
       else
-        render(json: @exercise_gym_sheet, status: :unprocessable_entity)
+        render(json: @exercise_gym_sheet.errors, status: :unprocessable_entity)
       end
     end
 
