@@ -39,12 +39,13 @@ class DeviseTokenAuthCreateUsers < ActiveRecord::Migration[7.0]
       ## User Info
       t.string(:name)
       t.string(:last_name)
-      t.integer(:gender)
-      t.integer(:age)
-      t.integer(:height)
-      t.integer(:role, default: 0)
-      t.integer(:objective)
       t.string(:email, null: false, default: '')
+      t.integer(:role, default: 0)
+      t.integer(:gender)
+      t.date(:date_of_birth)
+      t.decimal(:height)
+      t.decimal(:weight)
+      t.string(:objective)
 
       ## Tokens
       t.json(:tokens)

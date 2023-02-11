@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_02_05_020416) do
+ActiveRecord::Schema[7.0].define(version: 2023_02_05_184711) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -39,6 +39,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_05_020416) do
     t.string "objective"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.uuid "user_id", null: false
+    t.index ["user_id"], name: "index_gym_sheets_on_user_id"
   end
 
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -60,12 +62,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_05_020416) do
     t.inet "last_sign_in_ip"
     t.string "name"
     t.string "last_name"
-    t.integer "gender"
-    t.integer "age"
-    t.integer "height"
-    t.integer "role", default: 0
-    t.integer "objective"
     t.string "email", default: "", null: false
+    t.integer "role", default: 0
+    t.integer "gender"
+    t.date "date_of_birth"
+    t.decimal "height"
+    t.decimal "weight"
+    t.string "objective"
     t.json "tokens"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -77,4 +80,5 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_05_020416) do
 
   add_foreign_key "exercise_gym_sheets", "exercises"
   add_foreign_key "exercise_gym_sheets", "gym_sheets"
+  add_foreign_key "gym_sheets", "users"
 end
